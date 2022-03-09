@@ -86,6 +86,30 @@ const calcDisplayBalance = function (movements) {
 
 calcDisplayBalance(account1.movements);
 
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter((int, i, arr) => {
+      console.log(arr);
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
+
+calcDisplaySummary(account1.movements);
+
 // Computing Usernames
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
@@ -334,31 +358,49 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // Coding Challenge 2
 
-const dogAges1 = [5, 2, 4, 1, 15, 8, 3];
-const dogAges2 = [16, 6, 10, 5, 6, 1, 4];
+// const dogAges1 = [5, 2, 4, 1, 15, 8, 3];
+// const dogAges2 = [16, 6, 10, 5, 6, 1, 4];
 
-const calcAverageHumanAge = function (dogAges) {
-  // turn dog ages to human ages
-  // [5, 2, 4, 1, 15, 8, 3];
-  // const dogAges = []; // dog ages
+// const calcAverageHumanAge = function (dogAges) {
+//   // turn dog ages to human ages
+//   // [5, 2, 4, 1, 15, 8, 3];
+//   // const dogAges = []; // dog ages
 
-  const humanAges = dogAges.map(dogAge => {
-    if (dogAge <= 2) {
-      return 2 * dogAge;
-    } else {
-      return 16 + dogAge * 4;
-    }
-  });
+//   const humanAges = dogAges.map(dogAge => {
+//     if (dogAge <= 2) {
+//       return 2 * dogAge;
+//     } else {
+//       return 16 + dogAge * 4;
+//     }
+//   });
 
-  const adultDogs = humanAges.filter(humanAge => humanAge >= 18);
+//   const adultDogs = humanAges.filter(humanAge => humanAge >= 18);
 
-  const sum = adultDogs.reduce((sum, cur) => sum + cur);
+//   const sum = adultDogs.reduce((sum, cur) => sum + cur);
 
-  const averageAdultDogAges = sum / adultDogs.length;
+//   const averageAdultDogAges = sum / adultDogs.length;
 
-  return averageAdultDogAges;
-};
+//   return averageAdultDogAges;
+// };
 
-console.log(calcAverageHumanAge(dogAges1));
-console.log(calcAverageHumanAge(dogAges2));
+// console.log(calcAverageHumanAge(dogAges1));
+// console.log(calcAverageHumanAge(dogAges2));
 // console.log(calcAverageHumanAge.averageAdultDog);
+
+// The Magic of Chaining Methods
+
+// PIPELINE
+
+const eurToUsd = 1.1;
+console.log(movements);
+
+const totalDepositsUSD = movements
+  .filter(mov => mov < 0)
+  .map((mov, i, arr) => {
+    console.log(arr);
+    return mov * eurToUsd;
+  })
+  // .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(totalDepositsUSD);
