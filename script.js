@@ -651,3 +651,183 @@ console.log(movements);
 movements.sort((a, b) => b - a);
 
 console.log(movements);
+
+// More ways of Creating and Filing Arrays
+
+const arr = [1, 2, 3, 4, 5, 6, 7];
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+
+// Empty Arrays + fill method
+const x = new Array(7); // Creates an array with 7 empty elements
+console.log(x);
+
+// .fill()
+
+// x.fill(1); // Fill every element with 1
+
+x.fill(1, 3, 5);
+
+console.log(x);
+
+arr.fill(23, 2, 6);
+
+console.log(arr);
+
+// const y = ['yooo', 'hi there', 44, 'mango'];
+
+// y.fill(2, 2).push(44, 5, 6, 7);
+
+// console.log(y);
+
+// Array.from() - .from() was introduced to create arrays from array like structures
+
+const y = Array.from({ length: 7 }, () => 1); // An Array Constructor
+console.log(x);
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1); // Similar to .map() - The _ means a throwaway variable. it means we dont need the current value at all but we need to define something as the first parameter
+
+console.log(z);
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => el.textContent.replace('€', '')
+  );
+  console.log(movementsUI);
+  const movementsUI2 = [...document.querySelectorAll('movements__value')];
+});
+
+// Which Array method to use?
+
+// ask yourself
+
+// Do i want?
+
+// To mutate original array? :
+
+// Add to original:
+// .push - (end)
+// .unshift - (start)
+
+// Remove from original:
+// .pop - (end)
+// .shift - (start)
+// .splice - (any)
+
+// Others
+// .reverse
+// .sort
+// .fill
+
+// A new Array? :
+
+// Computed from original:
+// .map - (loop)
+
+// Filtered using condition:
+// .filter
+
+// Portion of original:
+// .slice
+
+// Adding original to other:
+// .concat
+
+// Flatenning the original:
+// .flat
+// .flatMap
+
+// An array index? :
+
+// Based on value:
+// .indexOf
+
+// Based on test condition:
+// .findIndex
+
+// Based on test condition:
+// .findIndex
+
+// An Array Element? :
+
+// Based on test condition
+// .find
+
+// know if array incluides?:
+
+// Based on value:
+// .includes
+
+// Based on test condition:
+// .some
+// .every
+
+// A new string?
+// .join
+
+// to transform to value?
+// Based on accumulator
+// .reduce
+
+// to just loop array?
+// .forEach - (Does not create a bew array, it just loops over it)
+
+// Array Methods Practice
+
+console.log('Array Methods Practice');
+
+const bankDepositSum = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 0)
+  .reduce((sum, cur) => sum + cur, 0); // Snowball the sum and accumulator
+
+console.log(bankDepositSum);
+
+const numDeposits1000 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
+
+console.log(numDeposits1000);
+
+// Prefixed ++ operator
+
+let a = 10;
+console.log(++a);
+console.log(a);
+
+// 3.
+
+const { deposits, withdrawals } = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+      sums[cur > 0 ? 'deposits' : 'withdrawals'];
+      return sums;
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+
+console.log(deposits, withdrawals);
+
+// 4.
+
+// This is a nice title -> This Is a Nice Title
+const convertTitleCase = function (title) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+
+  const exceptions = ['a', 'an', 'the', 'but', 'on', 'in', 'with'];
+
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word =>
+      exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)
+    )
+    .join(' ');
+  return capitalize(titleCase);
+};
+
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('this is a LONG title but not too long'));
+console.log(convertTitleCase('and here is another title with an EXAMPLE'));
